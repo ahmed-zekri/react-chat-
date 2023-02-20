@@ -30,7 +30,7 @@ const Chat = () => {
                 <div className={`messages large ${message.user === 'Me' ? "" : "right"}`}>
                     <div key={index} className="message">
                         {message.user === 'Me' ? "" : message.message + '\u00A0\u00A0'}
-                        <div className="dot center">{message.user[0]}</div>
+                        <div className="dot center"><div className="mt-1">{message.user[0]}</div></div>
                         {message.user === 'Me' ? '\u00A0\u00A0' + message.message : ""}
                     </div>
                 </div>

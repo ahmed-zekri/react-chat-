@@ -55,8 +55,8 @@ button[type="submit"] {
   cursor: pointer;
 }
 .dot {
-  height: 25px;
-  width: 25px;
+  height: 45px;
+  width: 45px;
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
