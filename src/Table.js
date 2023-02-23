@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import Fade from 'react-reveal/Fade';
-import {Button} from "react-bootstrap";
 
 
 const Table = () => {
-
-
     const [markers, setMarkers] = useState([]);
+    const [gameStarted, setGameStarted] = useState(false);
+    const [ia, setIa] = useState(false);
     const [gameOver, setGameOver] = useState(false);
     const [turn, setTurn] = useState(0);
     useEffect(() => {
@@ -66,7 +65,25 @@ const Table = () => {
 
     }
 
-    if (!gameOver)
+    if (!gameStarted)
+        return <div className="row">
+            <div className="col-md-6"/>
+            <div className="col">
+                <input type="button" className="btn-primary" onClick={() => {
+                    setIa(false)
+                    setGameStarted(true)
+                }} value="Player"/>
+                <div className="col">
+                    <input type="button" className="btn-primary" onClick={() => {
+                        setIa(true)
+                        setGameStarted(true)
+                    }} value="IA"/>
+                </div>
+
+                <div className="col"/>
+            </div>
+        </div>
+    else if (!gameOver)
         return (
             <div className="row">
                 <div className="col-sm"/>
@@ -88,20 +105,20 @@ const Table = () => {
             </div>
         )
     else return <Fade Left>
-        <div className="row">
-            <h4 className="text-center mt-5">{"Player " + (turn === 1 ? "1" : "2") + " Won"}</h4>
-        </div>
-        <div className="row">
-            <div className="col-md-6"/>
-            <div className="col">
-                <input type="button" className="btn-primary" onClick={() => {
-                    setGameOver(false)
-                    setMarkers([])
-                }} value="Retry"/>
+            <div className="row">
+                <h4 className="text-center mt-5">{"Player " + (turn === 1 ? "1" : "2") + " Won"}</h4>
             </div>
-            <div className="col"/>
-        </div>
-    </Fade>
+            <div className="row">
+                <div className="col-md-6"/>
+                <div className="col">
+                    <input type="button" className="btn-primary" onClick={() => {
+                        setGameOver(false)
+                        setMarkers([])
+                    }} value="Retry"/>
+                </div>
+                <div className="col"/>
+            </div>
+        </Fade>
 }
 
 export default Table;
