@@ -1,27 +1,31 @@
 import React, {useEffect, useState} from "react";
+import Fade from 'react-reveal/Fade';
+import {Button} from "react-bootstrap";
 
 
 const Table = () => {
 
 
     const [markers, setMarkers] = useState([]);
+    const [gameOver, setGameOver] = useState(false);
     const [turn, setTurn] = useState(0);
     useEffect(() => {
-        checkWin(0, markers.filter(item => item.value === "O"))
-        checkWin(1, markers.filter(item => item.value === "X"))
+        checkWin(markers.filter(item => item.value === "O"))
+        checkWin(markers.filter(item => item.value === "X"))
 
 
     }, [markers]);
 
-    const checkWin = (turn, array) => {
+    const checkWin = (array) => {
 
         array.forEach((_, index) => {
                 if (index < array.length - 2) {
                     let sum = 0
                     for (let i = 0; i < 3; i++)
                         sum += array[index + i].magicSquare
-                    if (sum === 15)
-                        alert("Player " + (turn === 0 ? "1" : "2") + " Won")
+                    if (sum === 15) {
+                        setGameOver(true)
+                    }
                 }
             }
         )
@@ -62,25 +66,42 @@ const Table = () => {
 
     }
 
-    return (
-        <div className="row">
-            <div className="col-sm"/>
-            <div className="col-sm">
-                <table className="table-bordered mt-5">
-                    {Array.from(
-                        {length: 3},
-                        (_, row) => <tr key={row} className="d-lg-table-row">{Array.from(
+    if (!gameOver)
+        return (
+            <div className="row">
+                <div className="col-sm"/>
+                <div className="col-sm">
+                    <table className="table-bordered mt-5">
+                        {Array.from(
                             {length: 3},
-                            (_, column) => <td key={column} className="d-lg-table-cell"
-                                               onClick={() => updateCell(row * 3 + column)}>{markers.find(item => row * 3 + column === item.index) ? markers.find(item => row * 3 + column === item.index).value : column + 1 + 3 * row}</td>
-                        )}</tr>
-                    )}
+                            (_, row) => <tr key={row} className="tic-row">{Array.from(
+                                {length: 3},
+                                (_, column) => <td key={column} className="tic-box p-4"
+                                                   onClick={() => updateCell(row * 3 + column)}>{markers.find(item => row * 3 + column === item.index) ? markers.find(item => row * 3 + column === item.index).value : column + 1 + 3 * row}</td>
+                            )}</tr>
+                        )}
 
 
-                </table>
+                    </table>
+                </div>
+                <div className="col-sm"/>
             </div>
+        )
+    else return <Fade Left>
+        <div className="row">
+            <h4 className="text-center mt-5">{"Player " + (turn === 1 ? "1" : "2") + " Won"}</h4>
         </div>
-    )
+        <div className="row">
+            <div className="col-md-6"/>
+            <div className="col">
+                <input type="button" className="btn-primary" onClick={() => {
+                    setGameOver(false)
+                    setMarkers([])
+                }} value="Retry"/>
+            </div>
+            <div className="col"/>
+        </div>
+    </Fade>
 }
 
 export default Table;
